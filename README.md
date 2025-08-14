@@ -1,12 +1,35 @@
-# Calcula importe
+# 📦 Calcula Importe
 
-### Programa con interfaz grafica para cualcular un importe a sacar sobre un pedido del sistema de ventas.
-### el objetivo es agilizar el proceso de facturacion calculando sobre el total del pedido calcular un porsentaje y quitar items del pedido hasta llegar al monto deseado.
+![Vista previa de la aplicación](./ilustration.png)
 
-## Como usarlo:
+**Calcula Importe** es un programa con **interfaz gráfica** diseñado para agilizar el proceso de facturación, permitiendo calcular rápidamente un porcentaje a descontar de un pedido y seleccionar los ítems a quitar hasta llegar al monto deseado.
 
-### ingrese el numero de pedido q desea calcular, puede ingresar todos los pedidos q dese, los totales se sumaran
-### ingrese el porsentaje q desea sacar (ej:30%)
-### apretar en el boton calcular.
-### los items a sacar del pedido apareceran en una listasta ordenado segun el pedido
+---
+
+## ✨ Características
+- Interfaz gráfica fácil de usar.
+- Permite ingresar uno o varios números de pedido; los totales se suman automáticamente.
+- Calcula un porcentaje de descuento sobre el total del pedido.
+- Ordena y muestra los ítems a quitar para alcanzar el importe deseado.
+- Compatible con el sistema de ventas **SIAAC3** y el sistema de facturación **SIAACFE**.
+
+> **Nota:** El programa requiere las variables de sistema:
+> - `SIAAC3_RUTE` → Ruta del sistema de ventas.
+> - `SIAACFE_RUTE` → Ruta del sistema de facturación.
+
+---
+
+## 📥 Descarga
+Puedes descargar la última versión desde la sección de **Releases**:  
+➡️ [Ir a la última release](../../releases/latest)
+
+---
+
+## 🛠 Cómo usarlo
+1. **Ingrese** el número de pedido que desea calcular (puede ingresar varios).
+2. **Escriba** el porcentaje que desea descontar (por ejemplo: `30%`).
+3. **Presione** el botón **Calcular**.
+4. Se mostrará una **lista ordenada** con los ítems que se deben quitar para llegar al importe calculado.
+
+---
 
