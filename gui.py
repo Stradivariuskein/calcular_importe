@@ -6,6 +6,20 @@ from tkinter import messagebox
 
 from pedidos_api import Item, GetPedido
 from calculate_amount import calculate_amount
+import os
+import sys
+
+SIAAC3_PATH = os.environ.get("SIAAC3_RUTE")
+SIAACFE_PATH = os.environ.get("SIAACFE_RUTE")
+
+SYSTEM_KEYS = ["ventas", "electronica"]
+
+if not SIAAC3_PATH:
+        # Mostrar cuadro de error si la variable no está definida
+        messagebox.showerror("Error", "La variable de entorno 'SIAAC3_RUTE' no está definida.")
+        sys.exit(1)
+else:
+    print(f"Ruta definida: {SIAAC3_PATH}") 
 
 class PedidoApp:
     def __init__(self, root):
@@ -19,10 +33,13 @@ class PedidoApp:
         # Encabezado
         frame_encabezado = tk.Frame(root)
         frame_encabezado.pack(pady=10)
+
+        # Variable asociada a los Radiobuttons
+        self.op_sistema = tk.StringVar(value=SYSTEM_KEYS[0])
         
         tk.Label(frame_encabezado, text="Sistema:").grid(row=0, column=0)
-        self.sistema_venta = tk.Radiobutton(frame_encabezado, text="Ventas", value="ventas")
-        self.sistema_electronica = tk.Radiobutton(frame_encabezado, text="Electrónica", value="electronica")
+        self.sistema_venta = tk.Radiobutton(frame_encabezado, text="Ventas", value=SYSTEM_KEYS[0], variable=self.op_sistema)
+        self.sistema_electronica = tk.Radiobutton(frame_encabezado, text="Electrónica", value=SYSTEM_KEYS[1], variable=self.op_sistema)
         self.sistema_venta.grid(row=0, column=1)
         self.sistema_electronica.grid(row=0, column=2)
 
@@ -106,7 +123,7 @@ class PedidoApp:
         # Variable para el campo de edición
         self.entry_edit = None
 
-    def editar_cantidad(self, event):
+    def editar_cantidad(self, event): # no implementado
         """Permite editar el campo de 'cantidad' de una fila."""
         # Obtiene el elemento seleccionado y el índice de la columna
         item_id = self.tree_items.selection()[0]
@@ -229,8 +246,14 @@ class PedidoApp:
                 messagebox.showwarning("Advertencia", f"El pedido numero {pedido_num} ya esta abierto")
                 return
             
-
-        api = GetPedido("X:/siaac3/PEDIDOS2.DBF")
+        if self.op_sistema.get() == SYSTEM_KEYS[0]:
+            api = GetPedido(f"{SIAAC3_PATH}/PEDIDOS2.DBF", system=SYSTEM_KEYS[0])
+            print(self.op_sistema.get())
+        elif self.op_sistema.get() == SYSTEM_KEYS[1]:
+            api = GetPedido(f"{SIAACFE_PATH}/PEDIDOS2.DBF", system=SYSTEM_KEYS[0])
+            print(self.op_sistema.get())
+        else:
+            messagebox.showwarning("Advertencia", f"Error inesperado no se pudo identicar el sistema selecionado")
 
         pedido = api.get_pedido(pedido_num)
         # cambia el valor de lavel
@@ -241,6 +264,7 @@ class PedidoApp:
         self.cargar_items(pedido.items)
         
     def calcular_items(self):
+        """dado un porcentaje del monto final quita items hasta llegar al imnporte deseado"""
         #borrar items anteriores
         for row in self.tree_items.get_children():
             self.tree_items.delete(row)

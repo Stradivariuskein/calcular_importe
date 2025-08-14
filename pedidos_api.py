@@ -2,6 +2,7 @@
 API PARA PODER VER LOS PEDIDO PEDIDOS DEL SISTEMA (PEDIDOS2.DBF)
 """
 import sys
+import re
 
 class Item:
     def __init__(self, item_num: int, code: str, price: float, subtotal: float, count: float, description : str) -> None:
@@ -39,8 +40,8 @@ class Pedido:
 
 
 class GetPedido:
-    def __init__(self, arch_path):
-        
+    def __init__(self, arch_path, system="ventas"):
+        self.system_selected = system
         self.pedidos_txt = open(arch_path, "r")
 
 
@@ -64,8 +65,25 @@ class GetPedido:
         # Lee la última mitad del archivo
         pedidos_txt = file_pedido.read()
 
+
+        # hay una difernecia de 1 caracter en el archivo de los depiddo entre los dos systemas
+        if self.system_selected == "ventas":
+            #previus_chars = " "
+            pattern = r"(?<!\*) (?=" + re.escape(num_pedido) + ")"
+        else:
+            #previus_chars = "\s{2,}"
+            pattern = r"(?<!\*)  (?=" + re.escape(num_pedido) + ")" # lookahead con doble espacio y el número
+            
         index_pedido = pedidos_txt.find(regex_pedido)
-        items = pedidos_txt[index_pedido:].split(num_pedido)[1:] #el primero item esta vacio lo quito
+        texto = pedidos_txt[index_pedido:] # borrar
+        # Solo hará split cuando hay exactamente DOS espacios antes del número
+        print(texto)
+
+        
+
+        # Hacemos el split a partir del patrón
+        items = re.split(pattern, pedidos_txt)[1:]
+        #items = pedidos_txt[index_pedido:].split(previus_chars + num_pedido)[1:] #el primero item esta vacio lo quito
         next_num_pedido = str(int(num_pedido)+1)
 
         items[-1] = items[-1].split(next_num_pedido)[0]
@@ -76,7 +94,7 @@ class GetPedido:
         items_list = []
         total = 0
         for item in items:
-
+            item = item.replace(num_pedido,"")
             try:
 
                 data_item = {

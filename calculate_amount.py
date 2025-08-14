@@ -6,11 +6,13 @@ def calculate_amount(pedidos: list[Pedido], percent: float):
         amount_take_out = 0
         current_amount_take_out = 0
         items = []
+        # le agregamos a cada item de cada pedido un identificador temporal
         for pedido in pedidos:
             amount_take_out +=  pedido.amount * percent
-            current_amount_take_out += amount_take_out
             for item in pedido.items:
                 items.append((item, f"{pedido.num}_{item.item_num}"))
+
+        current_amount_take_out = amount_take_out
         items_take_out = []
 
         # en orden descendente, utiliza `reverse=True`
