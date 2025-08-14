@@ -27,9 +27,12 @@ Puedes descargar la última versión desde la sección de **Releases**:
 
 ## 🛠 Cómo usarlo
 1. **Ingrese** el número de pedido que desea calcular (puede ingresar varios).
-2. **Escriba** el porcentaje que desea descontar (por ejemplo: `30%`).
-3. **Presione** el botón **Calcular**.
-4. Se mostrará una **lista ordenada** con los ítems que se deben quitar para llegar al importe calculado.
+2. **Precione** abrir
+3. **Escriba** el porcentaje que desea descontar (por ejemplo: `30%`).
+4. **Presione** el botón **Calcular**.
+5. Se mostrará una **lista ordenada** con los ítems que se deben quitar para llegar al importe calculado.
+
+![Vista previa de la aplicación](./usage.png)
 
 ---
 
